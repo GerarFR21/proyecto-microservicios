@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -18,6 +19,11 @@ public class ProductServiceImpl implements ProductService{
             new Product(4, "SmartTV Panasonic", 500.0, 45)
     ));
 
+    private final AtomicInteger newId;
+
+    public ProductServiceImpl(){
+        this.newId = new AtomicInteger(products.size());
+    }
 
     @Override
     public List<Product> getProducts() {
@@ -34,7 +40,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product postProduct(Product product) {
 
-        product.setId(products.size() + 1);
+        product.setId(newId.incrementAndGet());
         products.add(product);
         return product;
     }
