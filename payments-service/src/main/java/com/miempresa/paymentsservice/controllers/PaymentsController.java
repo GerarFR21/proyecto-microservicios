@@ -14,9 +14,12 @@ public class PaymentsController {
     @Value("${mensaje}")
     private String message;
 
+    @Value("${server.port}")
+    private String puerto;
+
     @GetMapping("/message")
     public String getMessage(){
 
-        return message;
+        return message + " - Puerto: " + puerto;
     }
 }
