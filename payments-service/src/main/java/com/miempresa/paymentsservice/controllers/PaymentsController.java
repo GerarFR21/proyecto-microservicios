@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RefreshScope
@@ -21,5 +22,17 @@ public class PaymentsController {
     public String getMessage(){
 
         return message + " - Puerto: " + puerto;
+    }
+
+    //simulando falla
+    @GetMapping("/slow")
+    public String slow(@RequestParam(defaultValue = "0") long ms){
+        try {
+            Thread.sleep(ms);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return "OK Request exitosa despues de " + ms + " ms - Puerto: " + puerto;
     }
 }
